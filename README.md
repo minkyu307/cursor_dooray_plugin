@@ -1,0 +1,1 @@
+# cursor_dooray_plugin
