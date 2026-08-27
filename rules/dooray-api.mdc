@@ -1,0 +1,16 @@
+---
+description: Dooray API 호출 규칙. 두레이 업무, 멤버, 메신저, 캘린더를 다룰 때 적용한다.
+alwaysApply: false
+---
+
+두레이 작업 시 MCP 도구만 사용한다. 브라우저로 helpdesk를 스크래핑하지 않는다.
+
+인증은 `Authorization: dooray-api {TOKEN}` 이다. Bearer를 쓰지 않는다.
+
+ID는 이름 대신 organizationMemberId, project-id, post-id를 쓴다. 이름이 주어지면 `dooray_search_members` 또는 `dooray_list_projects`로 ID를 먼저 찾는다.
+
+날짜와 시각은 ISO8601이다. 예: `2026-08-27T18:00:00+09:00`. 업무 목록 필터는 `today`, `thisweek`, `prev-{N}d`, `next-{N}d`도 허용된다.
+
+삭제, `/delete`, `/set-archive`는 대상을 확인한 뒤 `confirm=true`로만 실행한다.
+
+문서에 없는 경로는 호출하지 않는다. 전용 도구가 없으면 `dooray_list_api_catalog`로 경로를 확인한 다음 `dooray_api_call`을 사용한다.

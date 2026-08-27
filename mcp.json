@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "dooray": {
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/dist/server.js"],
+      "env": {
+        "DOORAY_API_TOKEN": "${DOORAY_API_TOKEN}",
+        "DOORAY_API_BASE_URL": "${DOORAY_API_BASE_URL}"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "cursor-dooray-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cursor plugin that exposes the official Dooray Service API over MCP",
+  "type": "module",
+  "bin": {
+    "cursor-dooray-plugin": "./dist/server.js"
+  },
+  "scripts": {
+    "build": "esbuild src/server.ts --bundle --platform=node --format=esm --outfile=dist/server.js --banner:js=\"#!/usr/bin/env node\"",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "validate": "node scripts/validate-plugin.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.8.0"
+  }
+}

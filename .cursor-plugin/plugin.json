@@ -1,0 +1,31 @@
+{
+  "name": "cursor-dooray-plugin",
+  "displayName": "cursor_dooray_plugin",
+  "version": "1.0.0",
+  "description": "Dooray 서비스 API를 Cursor 에이전트에 연결하는 플러그인. 프로젝트/업무, 캘린더, 메신저, 위키, 드라이브, 예약, 주소록을 공식 REST API로 다룹니다.",
+  "author": {
+    "name": "minkyu-kim"
+  },
+  "homepage": "https://helpdesk.dooray.com/share/pages/9wWo-xwiR66BO5LGshgVTg/2939987647631384419",
+  "repository": "https://github.com/minkyu-kim/cursor_dooray_plugin",
+  "license": "MIT",
+  "keywords": ["dooray", "mcp", "project", "messenger", "calendar", "wiki"],
+  "logo": "assets/logo.svg",
+  "variables": {
+    "type": "object",
+    "properties": {
+      "DOORAY_API_TOKEN": {
+        "type": "string",
+        "title": "Dooray API 토큰",
+        "description": "두레이 개인설정 > API > 개인 인증 토큰에서 발급한 값. Authorization 헤더에 dooray-api {TOKEN} 형식으로 사용됩니다."
+      },
+      "DOORAY_API_BASE_URL": {
+        "type": "string",
+        "title": "Dooray API Base URL",
+        "description": "기본값 https://api.dooray.com. 공공 클라우드 https://api.gov-dooray.com, 공공 업무망 https://api.gov-dooray.co.kr, 금융 클라우드 https://api.dooray.co.kr",
+        "default": "https://api.dooray.com"
+      }
+    },
+    "required": ["DOORAY_API_TOKEN"]
+  }
+}
