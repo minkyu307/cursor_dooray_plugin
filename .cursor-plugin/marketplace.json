@@ -1,0 +1,17 @@
+{
+  "name": "cursor-dooray-plugin",
+  "owner": {
+    "name": "minkyu-kim"
+  },
+  "metadata": {
+    "description": "Dooray 서비스 API를 Cursor 에이전트에 연결하는 플러그인",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "cursor-dooray-plugin",
+      "source": "./",
+      "description": "Dooray 서비스 API를 Cursor 에이전트에 연결하는 플러그인. 프로젝트/업무, 캘린더, 메신저, 위키, 드라이브, 예약, 주소록을 공식 REST API로 다룹니다."
+    }
+  ]
+}

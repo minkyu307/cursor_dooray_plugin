@@ -8,6 +8,19 @@ import { DOORAY_API_ENDPOINTS } from "../src/catalog.ts";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pluginNamePattern = /^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/;
 
+test("marketplace.json lists the repo-root plugin for folder install", () => {
+  const marketplace = JSON.parse(readFileSync(join(root, ".cursor-plugin/marketplace.json"), "utf8")) as {
+    name: string;
+    owner?: { name?: string };
+    plugins?: Array<{ name?: string; source?: string }>;
+  };
+  assert.match(marketplace.name, /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/);
+  assert.equal(marketplace.owner?.name, "minkyu-kim");
+  const entry = marketplace.plugins?.find((plugin) => plugin.name === "cursor-dooray-plugin");
+  assert.ok(entry, "missing cursor-dooray-plugin marketplace entry");
+  assert.equal(entry?.source, "./");
+});
+
 test("plugin.json matches Cursor kebab-case requirements", () => {
   const manifest = JSON.parse(readFileSync(join(root, ".cursor-plugin/plugin.json"), "utf8")) as {
     name: string;

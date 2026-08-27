@@ -85,6 +85,27 @@ async function validateFrontmatter(dir, required, kind) {
   }
 }
 
+const marketplaceNamePattern = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+const marketplacePath = path.join(root, ".cursor-plugin/marketplace.json");
+const marketplaceRaw = await fs.readFile(marketplacePath, "utf8");
+const marketplace = JSON.parse(marketplaceRaw);
+if (typeof marketplace.name !== "string" || !marketplaceNamePattern.test(marketplace.name)) {
+  addError('marketplace.json "name" must be lowercase kebab-case');
+}
+if (!marketplace.owner?.name) {
+  addError('marketplace.json "owner.name" is required');
+}
+if (!Array.isArray(marketplace.plugins) || marketplace.plugins.length === 0) {
+  addError('marketplace.json "plugins" must be a non-empty array');
+} else {
+  const entry = marketplace.plugins.find((plugin) => plugin?.name === "cursor-dooray-plugin");
+  if (!entry) {
+    addError('marketplace.json must list plugin "cursor-dooray-plugin"');
+  } else if (typeof entry.source !== "string" || ![".", "./"].includes(entry.source.replace(/\\/g, "/"))) {
+    addError('marketplace.json source for cursor-dooray-plugin must be "./" (repo root)');
+  }
+}
+
 const manifestPath = path.join(root, ".cursor-plugin/plugin.json");
 const raw = await fs.readFile(manifestPath, "utf8");
 const manifest = JSON.parse(raw);
