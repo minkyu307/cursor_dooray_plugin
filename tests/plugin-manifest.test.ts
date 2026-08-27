@@ -22,6 +22,19 @@ test("plugin.json matches Cursor kebab-case requirements", () => {
   assert.equal(manifest.logo, "assets/logo.svg");
 });
 
+test("marketplace.json lets Cursor import the repo folder", () => {
+  const marketplace = JSON.parse(readFileSync(join(root, ".cursor-plugin/marketplace.json"), "utf8")) as {
+    name: string;
+    owner?: { name?: string };
+    plugins?: Array<{ name: string; source: string }>;
+  };
+  assert.match(marketplace.name, pluginNamePattern);
+  assert.ok(marketplace.owner?.name);
+  assert.equal(marketplace.plugins?.length, 1);
+  assert.equal(marketplace.plugins?.[0]?.name, "cursor-dooray-plugin");
+  assert.ok([".", "./", "./."].includes(marketplace.plugins?.[0]?.source ?? ""));
+});
+
 test("mcp.json uses plugin variables and bundled server", () => {
   const mcp = JSON.parse(readFileSync(join(root, "mcp.json"), "utf8")) as {
     mcpServers: { dooray: { command: string; args: string[]; env: Record<string, string> } };

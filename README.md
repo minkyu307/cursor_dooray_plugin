@@ -27,9 +27,13 @@ flowchart LR
 
 ## 설치
 
-1. 이 저장소를 Cursor 플러그인으로 추가합니다. 로컬 테스트는 저장소를 `~/.cursor/plugins/local/cursor-dooray-plugin`에 복사하거나 심볼릭 링크합니다.
-2. Cursor를 다시 로드한 뒤 **Customize**에서 플러그인을 확인합니다.
+Cursor에서 **폴더로 플러그인 추가**하면 `.cursor-plugin/plugin.json`이 아니라 `.cursor-plugin/marketplace.json`을 찾습니다. 이 저장소는 그 매니페스트를 포함합니다.
+
+1. Cursor **Customize**에서 로컬 폴더로 이 저장소 루트를 추가합니다.
+2. `cursor-dooray-plugin`을 설치합니다.
 3. **Plugins → Configure**에서 `DOORAY_API_TOKEN`을 넣습니다.
+
+또는 저장소를 `~/.cursor/plugins/local/cursor-dooray-plugin`에 복사하거나 심볼릭 링크한 뒤 창을 다시 로드합니다.
 
 토큰 발급: 두레이 **개인설정 > API > 개인 인증 토큰**. 호출 헤더는 `Authorization: dooray-api {TOKEN}`입니다.
 

@@ -58,6 +58,35 @@ async function walk(dir) {
   return files;
 }
 
+/**
+ * Cursor 폴더 등록이 요구하는 marketplace.json과 plugin.json 이름을 맞춘다.
+ * @param {string} marketplacePath
+ * @param {{ name: string }} manifest
+ */
+async function validateMarketplaceManifest(marketplacePath, manifest) {
+  if (!(await pathExists(marketplacePath))) {
+    addError(".cursor-plugin/marketplace.json is missing");
+    return;
+  }
+  const marketplace = JSON.parse(await fs.readFile(marketplacePath, "utf8"));
+  if (!marketplace.owner?.name) {
+    addError('marketplace.json missing "owner.name"');
+  }
+  const entries = Array.isArray(marketplace.plugins) ? marketplace.plugins : [];
+  if (entries.length === 0) {
+    addError("marketplace.json must list at least one plugin");
+    return;
+  }
+  const entry = entries.find((item) => item?.name === manifest.name) ?? entries[0];
+  if (entry.name !== manifest.name) {
+    addError(`marketplace plugin name "${entry.name}" must match plugin.json name "${manifest.name}"`);
+  }
+  const sourceDir = path.resolve(root, entry.source ?? ".");
+  if (!(await pathExists(path.join(sourceDir, ".cursor-plugin/plugin.json")))) {
+    addError(`marketplace source missing plugin.json: ${entry.source}`);
+  }
+}
+
 async function validateFrontmatter(dir, required, kind) {
   if (!(await pathExists(dir))) {
     return;
@@ -91,6 +120,8 @@ const manifest = JSON.parse(raw);
 if (!pluginNamePattern.test(manifest.name)) {
   addError('plugin.json "name" must be lowercase kebab-case');
 }
+
+await validateMarketplaceManifest(path.join(root, ".cursor-plugin/marketplace.json"), manifest);
 if (manifest.logo && !(await pathExists(path.join(root, manifest.logo)))) {
   addError(`logo missing: ${manifest.logo}`);
 }
